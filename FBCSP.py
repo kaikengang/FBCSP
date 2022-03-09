@@ -1,5 +1,5 @@
 import numpy as np
-import CSP
+import .CSP
 
 class FBCSP:
     def __init__(self,m_filters):
