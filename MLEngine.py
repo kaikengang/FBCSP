@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.signal as signal
 from scipy.signal import cheb2ord
-from . import FBCSP
+from .FBCSP import FBCSP
 from . import Classifier
 from . import LoadData
 from sklearn.svm import SVR
@@ -74,7 +74,7 @@ class MLEngine:
                 y_classes_unique = np.unique(y_train)
                 n_classes = len(np.unique(y_train))
 
-                fbcsp = FBCSP.FBCSP(self.m_filters)
+                fbcsp = FBCSP(self.m_filters)
                 fbcsp.fit(x_train_fb,y_train)
                 y_train_predicted = np.zeros((y_train.shape[0], n_classes), dtype=np.float)
                 y_test_predicted = np.zeros((y_test.shape[0], n_classes), dtype=np.float)
