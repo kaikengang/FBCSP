@@ -124,8 +124,7 @@ class MLEngine:
                 #print(f'y_train = {str(len(y_train))}\n')
                 #print(f'y_test = {str(len(y_test))}\n')
                 
-                print(f'Train Acc = {tr_acc:.3f}')
-                print(f', Kappa = {kappa_train:.3f}, F1 = {f1_train:.3f}; Test Accuracy = {te_acc:.3f}, Kappa = {kappa_test:.3f} F1 Score = {f1_test:.3f}')
+                print(f'Train Acc = {tr_acc:.3f}, Kappa = {kappa_train:.3f}, F1 = {f1_train:.3f}; Test Accuracy = {te_acc:.3f}, Kappa = {kappa_test:.3f} F1 Score = {f1_test:.3f}')
 
                 training_accuracy.append(tr_acc)
                 testing_accuracy.append(te_acc)
