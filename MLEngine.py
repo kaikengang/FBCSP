@@ -3,7 +3,7 @@ import scipy.signal as signal
 from scipy.signal import cheb2ord
 from . import FBCSP
 from . import Classifier
-from .LoadData import LoadBCIC, LoadBCIE
+from . import LoadData
 from sklearn.svm import SVR
 from . import Preprocess
 
@@ -29,9 +29,9 @@ class MLEngine:
         '''for BCIC Dataset'''
         
         if (self.file_to_load.find('T')!=-1):        
-            bcic_data = LoadBCIC(self.file_to_load, self.data_path)
+            bcic_data = LoadData.LoadBCIC(self.file_to_load, self.data_path)
         else:
-            bcic_data = LoadBCICE(self.file_to_load, self.data_path)
+            bcic_data = LoadData.LoadBCICE(self.file_to_load, self.data_path)
             
         eeg_data = bcic_data.get_epochs()
         
