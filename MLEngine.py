@@ -125,12 +125,12 @@ class MLEngine:
                 #print(f'y_test = {str(len(y_test))}\n')
                 
                 
-                print(f'Training Accuracy = {str(tr_acc:%.3f)}')
-                print(f'Training Kappa Score = {str(kappa_train:%.3f)}')
-                print(f'Training F1 Score = {str(f1_train:%.3f)}')
-                print(f'Testing Accuracy = {str(te_acc:%.3f)}')
-                print(f'Testing Kappa Score = {str(kappa_test:%.3f)}')
-                print(f'Testing F1 Score = {str(f1_test:%.3f)}')
+                print(f'Training Accuracy = {tr_acc:%.3f}')
+                print(f'Training Kappa Score = {kappa_train:%.3f}')
+                print(f'Training F1 Score = {f1_train:%.3f}')
+                print(f'Testing Accuracy = {te_acc:%.3f}')
+                print(f'Testing Kappa Score = {kappa_test:%.3f}')
+                print(f'Testing F1 Score = {f1_test:%.3f}')
 
                 training_accuracy.append(tr_acc)
                 testing_accuracy.append(te_acc)
