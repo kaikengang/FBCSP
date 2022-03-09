@@ -8,7 +8,7 @@ class LoadData:
         self.eeg_file_path = eeg_file_path
 
     def load_raw_data_gdf(self,file_to_load):
-        self.raw_eeg_subject = mne.io.read_raw_gdf(self.eeg_file_path + '/' + file_to_load,verbose='CRITICAL')
+        self.raw_eeg_subject = mne.io.read_raw_gdf(self.eeg_file_path + '/' + file_to_load, verbose='CRITICAL')
         return self
 
     def load_raw_data_mat(self,file_to_load):
@@ -61,7 +61,7 @@ class LoadBCICE(LoadData):
         events, event_ids = mne.events_from_annotations(raw_data)
         #stims =[value for key, value in event_ids.items() if key in self.stimcodes]
         epochs = mne.Epochs(raw_data, events, tmin=tmin, tmax=tmax, event_repeated='drop',
-                            baseline=baseline, preload=True, proj=False, reject_by_annotation=False)
+                            baseline=baseline, preload=True, proj=False, reject_by_annotation=False, verbose='CRITICAL')
         epochs = epochs.drop_channels(self.channels_to_remove)
         self.y_labels = epochs.events[:, -1] - min(epochs.events[:, -1])
         self.x_data = epochs.get_data()*1e6
