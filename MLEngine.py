@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 class MLEngine:
-    def __init__(self,data_path='',file_to_load='',subject_id='',sessions=[1, 2],ntimes=1,kfold=2,m_filters=2,window_details={}):
+    def __init__(self,data_path='',file_to_load='',subject_id='',sessions=[1, 2],ntimes=1,kfold=2,m_filters=2,window_details={},mc_methods='OVR'):
         self.data_path = data_path
         self.subject_id=subject_id
         self.file_to_load = file_to_load
