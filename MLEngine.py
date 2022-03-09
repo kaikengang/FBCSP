@@ -67,7 +67,7 @@ class MLEngine:
             for i in range(self.kfold):
                 train_idx = train_indices.get(i)
                 test_idx = test_indices.get(i)
-                print(f'Times {k+1}, Fold {i+1}:', end = '')
+                print(f'Times {k+1}, Fold {i+1}: ', end = '')
                 y_train, y_test = self.split_ydata(y_labels, train_idx, test_idx)
                 x_train_fb, x_test_fb = self.split_xdata(filtered_data, train_idx, test_idx)
 
@@ -226,12 +226,16 @@ class MLEngine:
         training_f1 = []
         testing_f1 = []
         for k in range(self.ntimes):
-            '''for N times x K fold CV'''
-            # train_indices, test_indices = self.cross_validate_Ntimes_Kfold(y_labels,ifold=k)
-            '''for K fold CV by sequential splitting'''
-            train_indices, test_indices = self.cross_validate_sequential_split(y_labels)
-            '''for one fold in half half split'''
-            # train_indices, test_indices = self.cross_validate_half_split(y_labels)
+            if self.mc_methods == "OVR":
+              '''for N times x K fold CV'''
+              train_indices, test_indices = self.cross_validate_Ntimes_Kfold(y_labels,ifold=k)
+            elif self.mc_methods == "PW":
+              '''for K fold CV by sequential splitting'''
+              train_indices, test_indices = self.cross_validate_sequential_split(y_labels)
+            elif self.mc_methods == "DW":
+              '''for one fold in half half split'''
+              train_indices, test_indices = self.cross_validate_half_split(y_labels)            
+            
             for i in range(self.kfold):
                 train_idx = train_indices.get(i)
                 test_idx = test_indices.get(i)
