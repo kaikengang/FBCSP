@@ -1,11 +1,11 @@
 import numpy as np
 import scipy.signal as signal
 from scipy.signal import cheb2ord
-from bin.FBCSP import FBCSP
-from bin.Classifier import Classifier
-import bin.LoadData as LoadData
+from . import FBCSP
+from . import Classifier
+from . import LoadData
 from sklearn.svm import SVR
-import bin.Preprocess as Preprocess
+from . import Preprocess
 
 from sklearn import metrics
 from sklearn.metrics import f1_score, cohen_kappa_score
