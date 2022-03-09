@@ -124,7 +124,7 @@ class MLEngine:
                 #print(f'y_train = {str(len(y_train))}\n')
                 #print(f'y_test = {str(len(y_test))}\n')
                 
-                
+                print(tr_acc)
                 print(f'Training Accuracy = {tr_acc:%.3f}')
                 print(f'Training Kappa Score = {kappa_train:%.3f}')
                 print(f'Training F1 Score = {f1_train:%.3f}')
