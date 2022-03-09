@@ -9,7 +9,7 @@ class FBCSP:
     def fit(self,x_train_fb,y_train):
         y_classes_unique = np.unique(y_train)
         n_classes = len(y_classes_unique)
-        self.csp = CSP.CSP(self.m_filters)
+        self.csp = CSP(self.m_filters)
 
         def get_csp(x_train_fb, y_train_cls):
             fbcsp_filters = {}
