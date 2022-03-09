@@ -67,7 +67,7 @@ class MLEngine:
             for i in range(self.kfold):
                 train_idx = train_indices.get(i)
                 test_idx = test_indices.get(i)
-                print(f'Times {str(k)}, Fold {str(i)}\n')
+                print(f'Times {k+1}, Fold {i+1}:')
                 y_train, y_test = self.split_ydata(y_labels, train_idx, test_idx)
                 x_train_fb, x_test_fb = self.split_xdata(filtered_data, train_idx, test_idx)
 
