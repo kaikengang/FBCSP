@@ -22,6 +22,7 @@ class MLEngine:
         self.ntimes=ntimes
         self.window_details = window_details
         self.m_filters = m_filters
+        self.mc_methods = mc_methods        
 
     def experiment(self):
 
@@ -53,12 +54,15 @@ class MLEngine:
         training_f1 = []
         testing_f1 = []
         for k in range(self.ntimes):
-            '''for N times x K fold CV'''
-            #train_indices, test_indices = self.cross_validate_Ntimes_Kfold(y_labels,ifold=k)
-            '''for K fold CV by sequential splitting'''
-            train_indices, test_indices = self.cross_validate_sequential_split(y_labels)
-            '''for one fold in half half split'''
-            #train_indices, test_indices = self.cross_validate_half_split(y_labels)
+            if self.mc_methods == "OVR":
+              '''for N times x K fold CV'''
+              train_indices, test_indices = self.cross_validate_Ntimes_Kfold(y_labels,ifold=k)
+            elif self.mc_methods == "PW":
+              '''for K fold CV by sequential splitting'''
+              train_indices, test_indices = self.cross_validate_sequential_split(y_labels)
+            elif self.mc_methods == "DW":
+              '''for one fold in half half split'''
+              train_indices, test_indices = self.cross_validate_half_split(y_labels)            
             
             for i in range(self.kfold):
                 train_idx = train_indices.get(i)
