@@ -8,7 +8,7 @@ class LoadData:
         self.eeg_file_path = eeg_file_path
 
     def load_raw_data_gdf(self,file_to_load):
-        self.raw_eeg_subject = mne.io.read_raw_gdf(self.eeg_file_path + '/' + file_to_load)
+        self.raw_eeg_subject = mne.io.read_raw_gdf(self.eeg_file_path + '/' + file_to_load,verbose='CRITICAL')
         return self
 
     def load_raw_data_mat(self,file_to_load):
