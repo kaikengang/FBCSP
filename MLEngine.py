@@ -2,7 +2,7 @@ import numpy as np
 import scipy.signal as signal
 from scipy.signal import cheb2ord
 from .FBCSP import FBCSP
-from . import Classifier
+from .Classifier import Classifier, FeatureSelect
 from . import LoadData
 from sklearn.svm import SVR
 from . import Preprocess
