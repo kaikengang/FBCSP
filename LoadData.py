@@ -36,7 +36,7 @@ class LoadBCIC(LoadData):
         events, event_ids = mne.events_from_annotations(raw_data)
         stims =[value for key, value in event_ids.items() if key in self.stimcodes]
         epochs = mne.Epochs(raw_data, events, event_id=stims, tmin=tmin, tmax=tmax, event_repeated='drop',
-                            baseline=baseline, preload=True, proj=False, reject_by_annotation=False)
+                            baseline=baseline, preload=True, proj=False, reject_by_annotation=False, verbose='CRITICAL')
         epochs = epochs.drop_channels(self.channels_to_remove)
         self.y_labels = epochs.events[:, -1] - min(epochs.events[:, -1])
         self.x_data = epochs.get_data()*1e6
