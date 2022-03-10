@@ -22,12 +22,12 @@ class LoadData:
 
 class LoadBCIC(LoadData):
     '''Subclass of LoadData for loading BCI Competition IV Dataset 2a'''
-    def __init__(self, file_to_load,*args):
-        self.stimcodes=('769','770','771','772')
+    def __init__(self, file_path, file_to_load, stimcodes):
+        self.stimcodes= stimcodes
         # self.epoched_data={}
         self.file_to_load = file_to_load
         self.channels_to_remove = ['EOG-left', 'EOG-central', 'EOG-right']
-        super(LoadBCIC,self).__init__(*args)
+        super(LoadBCIC,self).__init__(file_path)
 
     def get_epochs(self, tmin=-4.5,tmax=5.0,baseline=None):
         self.load_raw_data_gdf(self.file_to_load)
@@ -36,31 +36,6 @@ class LoadBCIC(LoadData):
         events, event_ids = mne.events_from_annotations(raw_data)
         stims =[value for key, value in event_ids.items() if key in self.stimcodes]
         epochs = mne.Epochs(raw_data, events, event_id=stims, tmin=tmin, tmax=tmax, event_repeated='drop',
-                            baseline=baseline, preload=True, proj=False, reject_by_annotation=False, verbose='CRITICAL')
-        epochs = epochs.drop_channels(self.channels_to_remove)
-        self.y_labels = epochs.events[:, -1] - min(epochs.events[:, -1])
-        self.x_data = epochs.get_data()*1e6
-        eeg_data={'x_data':self.x_data,
-                  'y_labels':self.y_labels,
-                  'fs':self.fs}
-        return eeg_data
-
-class LoadBCICE(LoadData):
-    '''Subclass of LoadData for loading BCI Competition IV Dataset 2a'''
-    def __init__(self, file_to_load,*args):
-        #self.stimcodes=('769','770','771','772')
-        # self.epoched_data={}
-        self.file_to_load = file_to_load
-        self.channels_to_remove = ['EOG-left', 'EOG-central', 'EOG-right']
-        super(LoadBCICE,self).__init__(*args)
-
-    def get_epochs(self, tmin=-4.5,tmax=5.0,baseline=None):
-        self.load_raw_data_gdf(self.file_to_load)
-        raw_data = self.raw_eeg_subject
-        self.fs = raw_data.info.get('sfreq')
-        events, event_ids = mne.events_from_annotations(raw_data)
-        #stims =[value for key, value in event_ids.items() if key in self.stimcodes]
-        epochs = mne.Epochs(raw_data, events, tmin=tmin, tmax=tmax, event_repeated='drop',
                             baseline=baseline, preload=True, proj=False, reject_by_annotation=False, verbose='CRITICAL')
         epochs = epochs.drop_channels(self.channels_to_remove)
         self.y_labels = epochs.events[:, -1] - min(epochs.events[:, -1])
