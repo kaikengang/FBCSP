@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 class MLEngine:
-    def __init__(self,data_path='',file_to_load='',subject_id='',sessions=[1, 2],ntimes=1,kfold=2,m_filters=2,window_details={},v_method='kfold'):
+    def __init__(self,data_path='',file_to_load='',subject_id='',sessions=[1, 2],ntimes=1,kfold=2,m_filters=2,window_details={},v_method='kfold',sssplit=None):
         self.data_path = data_path
         self.subject_id=subject_id
         self.file_to_load = file_to_load
@@ -22,6 +22,7 @@ class MLEngine:
         self.ntimes=ntimes
         self.window_details = window_details
         self.m_filters = m_filters
+        self.sssplit = sssplit
         self.v_method = v_method        
 
     def experiment(self, eeg_data, ssplit=None):
@@ -59,7 +60,7 @@ class MLEngine:
               train_indices, test_indices = self.cross_validate_Ntimes_Kfold(y_labels,ifold=k)
             elif self.v_method == "ss":
               '''Session-to-session transfer'''
-              train_indices, test_indices = self.session_to_session_split(y_labels,sssplit)
+              train_indices, test_indices = self.session_to_session_split(y_labels)
             elif self.v_method == "kfolds":
               '''for K fold CV by sequential splitting'''
               train_indices, test_indices = self.cross_validate_sequential_split(y_labels)
@@ -250,19 +251,13 @@ class MLEngine:
 
         return train_indices, test_indices
 
-    def session_to_session_split(self, y_labels, sssplit):
-        unique_classes = np.unique(y_labels)
-        all_labels = np.arange(len(y_labels))
-        train_idx =np.array([])
-        test_idx = np.array([])
-        for cls in unique_classes:
-            cls_indx = all_labels[np.where(y_labels==cls)]
-            if len(train_idx)==0:
-                train_idx = cls_indx[:math.ceil(len(cls_indx)/2)]
-                test_idx = cls_indx[math.ceil(len(cls_indx)/2):]
-            else:
-                train_idx=np.append(train_idx,cls_indx[:math.ceil(len(cls_indx)/2)])
-                test_idx=np.append(test_idx,cls_indx[math.ceil(len(cls_indx)/2):])
+    def session_to_session_split(self, y_labels):        
+        all_labels = len(y_labels)
+       
+        train_indices = {}
+        test_indices = {}
+        train_idx = range(0,self.sssplit)
+        test_idx = range(self.sssplit+1,all_labels)
 
         train_indices = {0:train_idx}
         test_indices = {0:test_idx}
