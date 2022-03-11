@@ -128,7 +128,7 @@ class MLEngine:
                 #print(f'y_train = {str(len(y_train))}\n')
                 #print(f'y_test = {str(len(y_test))}\n')
                 
-                print(f'Train Acc = {tr_acc:.3f}, Kappa = {kappa_train:.3f}, F1 = {f1_train:.3f}; Test Accuracy = {te_acc:.3f}, Kappa = {kappa_test:.3f} F1 Score = {f1_test:.3f}')
+                print(f'Train Acc = {tr_acc:.3f}, Kappa = {kappa_train:.3f}, F1 = {f1_train:.3f}; Test Acc = {te_acc:.3f}, Kappa = {kappa_test:.3f} F1 Score = {f1_test:.3f}')
 
                 training_accuracy.append(tr_acc)
                 testing_accuracy.append(te_acc)
@@ -158,27 +158,10 @@ class MLEngine:
         best_training_f1 = np.max(np.asarray(training_f1))
         best_testing_f1 = np.max(np.asarray(testing_f1))
    
-        print('*'*10,'\n')
-        print(f'Mean Training Accuracy = {str(mean_training_accuracy)}')
-        print(f'Std Training Accuracy = {str(std_training_accuracy)}')
-        print(f'Best Training Accuracy = {str(best_training_accuracy)}')
-        print(f'Mean Training Kappa = {str(mean_training_kappa)}')
-        print(f'Std Training Kappa = {str(std_training_kappa)}')
-        print(f'Best Training Kappa = {str(best_training_kappa)}')
-        print(f'Mean Training F1 Score = {str(mean_training_f1)}')
-        print(f'Std Training F1 Score = {str(std_training_f1)}')
-        print(f'Best Training F1 Score = {str(best_training_f1)}')
-        print('-'*10,'\n')
-        print(f'Mean Testing Accuracy = {str(mean_testing_accuracy)}')
-        print(f'Std Testing Accuracy = {str(std_testing_accuracy)}')
-        print(f'Best Testing Accuracy = {str(best_testing_accuracy)}')
-        print(f'Mean Testing Kappa = {str(mean_testing_kappa)}')
-        print(f'Std Testing Kappa = {str(std_testing_kappa)}')
-        print(f'Best Testing Kappa = {str(best_testing_kappa)}')
-        print(f'Mean Testing F1 Score = {str(mean_testing_f1)}')
-        print(f'Std Testing F1 Score = {str(std_testing_f1)}')
-        print(f'Best Testing F1 Score = {str(best_testing_f1)}')
-        print('*' * 10, '\n')
+        print('*'*10)
+        print(f'Mean Train Acc = {mean_training_accuracy:.3f}',u'\u00B1',f'{std_training_accuracy:.3f}, Kappa = {mean_training_kappa:.3f}',u'\u00B1',f'{std_training_kappa:.3f}, F1 = {mean_training_f1:.3f}',u'\u00B1',f'{std_training_f1:.3f}')
+        print(f'Mean Test Acc = {mean_testing_accuracy:.3f}',u'\u00B1',f'{std_testing_accuracy:.3f}, Kappa = {mean_testing_kappa:.3f}',u'\u00B1',f'{std_testing_kappa:.3f}, F1 = {mean_testing_f1:.3f}',u'\u00B1',f'{std_testing_f1:.3f}')
+        print('*'*10)
         
         evalScore = dict()
         
@@ -214,9 +197,6 @@ class MLEngine:
             train_indices.update({i: train_idx})
             test_indices.update({i: test_idx})
             i += 1
-
-        print('train_indices: ',train_indices)            
-
         return train_indices, test_indices
 
     def cross_validate_sequential_split(self, y_labels):
