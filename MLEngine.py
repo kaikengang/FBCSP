@@ -13,16 +13,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 class MLEngine:
-    def __init__(self,data_path='',file_to_load='',subject_id='',sessions=[1, 2],ntimes=1,kfold=2,m_filters=2,window_details={},v_method='kfold',sssplit=None):
-        self.data_path = data_path
-        self.subject_id=subject_id
-        self.file_to_load = file_to_load
-        self.sessions = sessions
+    def __init__(self,ntimes=1,kfold=2,m_filters=2,window_details={},v_method='kfold',sssplit=None,best=False):
+        #self.sessions = sessions
         self.kfold = kfold
         self.ntimes=ntimes
         self.window_details = window_details
         self.m_filters = m_filters
         self.sssplit = sssplit
+        self.best = False
         self.v_method = v_method        
 
     def experiment(self, eeg_data, ssplit=None):
@@ -151,13 +149,14 @@ class MLEngine:
         std_training_f1 = np.std(np.asarray(training_f1))
         std_testing_f1 = np.std(np.asarray(testing_f1))
         
-        best_training_accuracy = np.max(np.asarray(training_accuracy))
-        best_testing_accuracy = np.max(np.asarray(testing_accuracy))
-        best_training_kappa = np.max(np.asarray(training_kappa))
-        best_testing_kappa = np.max(np.asarray(testing_kappa))
-        best_training_f1 = np.max(np.asarray(training_f1))
-        best_testing_f1 = np.max(np.asarray(testing_f1))
-   
+        if self.best:
+          best_training_accuracy = np.max(np.asarray(training_accuracy))
+          best_testing_accuracy = np.max(np.asarray(testing_accuracy))
+          best_training_kappa = np.max(np.asarray(training_kappa))
+          best_testing_kappa = np.max(np.asarray(testing_kappa))
+          best_training_f1 = np.max(np.asarray(training_f1))
+          best_testing_f1 = np.max(np.asarray(testing_f1))
+    
         print('*'*10)
         print(f'Mean Train Acc = {mean_training_accuracy:.3f}',u'\u00B1',f'{std_training_accuracy:.3f}, Kappa = {mean_training_kappa:.3f}',u'\u00B1',f'{std_training_kappa:.3f}, F1 = {mean_training_f1:.3f}',u'\u00B1',f'{std_training_f1:.3f}')
         print(f'Mean Test Acc = {mean_testing_accuracy:.3f}',u'\u00B1',f'{std_testing_accuracy:.3f}, Kappa = {mean_testing_kappa:.3f}',u'\u00B1',f'{std_testing_kappa:.3f}, F1 = {mean_testing_f1:.3f}',u'\u00B1',f'{std_testing_f1:.3f}')
@@ -167,22 +166,22 @@ class MLEngine:
         
         evalScore['mean_training_accuracy'] = mean_training_accuracy
         evalScore['std_training_accuracy'] = std_training_accuracy
-        evalScore['best_training_accuracy'] = best_training_accuracy
+        if self.best: evalScore['best_training_accuracy'] = best_training_accuracy
         evalScore['mean_training_kappa'] = mean_training_kappa
         evalScore['std_training_kappa'] = std_training_kappa
-        evalScore['best_training_kappa'] = best_training_kappa
+        if self.best: evalScore['best_training_kappa'] = best_training_kappa
         evalScore['mean_training_f1'] = mean_training_f1
         evalScore['std_training_f1'] = std_training_f1
-        evalScore['best_training_f1'] = best_training_f1
+        if self.best: evalScore['best_training_f1'] = best_training_f1
         evalScore['mean_testing_accuracy'] = mean_testing_accuracy
         evalScore['std_testing_accuracy'] = std_testing_accuracy
-        evalScore['best_testing_accuracy'] = best_testing_accuracy
+        if self.best: evalScore['best_testing_accuracy'] = best_testing_accuracy
         evalScore['mean_testing_kappa'] = mean_testing_kappa
         evalScore['std_testing_kappa'] = std_testing_kappa
-        evalScore['best_testing_kappa'] = best_testing_kappa
+        if self.best: evalScore['best_testing_kappa'] = best_testing_kappa
         evalScore['mean_testing_f1'] = mean_testing_f1
         evalScore['std_testing_f1'] = std_testing_f1
-        evalScore['best_testing_f1'] = best_testing_f1
+        if self.best: evalScore['best_testing_f1'] = best_testing_f1
         
         return evalScore
 
