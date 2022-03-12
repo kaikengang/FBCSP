@@ -268,6 +268,55 @@ class MLEngine:
     def get_multi_class_regressed(self, y_predicted):
         y_predict_multi = np.asarray([np.argmin(y_predicted[i,:]) for i in range(y_predicted.shape[0])])
         return y_predict_multi
+
+def SummarizeResults(evalScore):
+  import pandas as pd
+
+  # Map the results to a pandas dataframe
+  df = pd.DataFrame(evalScore)
+
+  # You can check what each columns refer to 
+  #print(df.columns)
+
+  # Rename the columns for better visualization
+  columns = [('Train','Acc'),('Train','AStd'),('Train','Kappa'),('Train','KStd'),('Train','F1'),('Train','FStd'),
+            ('Test','Acc'),('Test','AStd'),('Test','Kappa'),('Test','KStd'),('Test','F1'),('Test','FStd')]
+  df.columns=pd.MultiIndex.from_tuples(columns)
+
+  # Instead of subjects 0 to 8, add 1 to display 1 to 9
+  df.index = np.arange(1, len(df)+1)
+
+  # Compute the average across subjects
+  df.loc['Average'] = df.mean()
+
+  # Can use the below applymap to apply to all columns
+  #df=df.applymap('{0:.3f}'.format)            
+
+  # Alternatively, can use below to apply to individual columns
+  df[('Train','Acc')]=df[('Train','Acc')].apply('{0:.3f}'.format)            
+  df[('Train','AStd')]=df[('Train','AStd')].apply('\u00B1{0:.3f}'.format)            
+  df[('Train','Kappa')]=df[('Train','Kappa')].apply('{0:.3f}'.format)            
+  df[('Train','KStd')]=df[('Train','KStd')].apply('\u00B1{0:.3f}'.format)            
+  df[('Train','F1')]=df[('Train','F1')].apply('{0:.3f}'.format)            
+  df[('Train','FStd')]=df[('Train','FStd')].apply('\u00B1{0:.3f}'.format)            
+  df[('Test','Acc')]=df[('Test','Acc')].apply('{0:.3f}'.format)            
+  df[('Test','AStd')]=df[('Test','AStd')].apply('\u00B1{0:.3f}'.format)            
+  df[('Test','Kappa')]=df[('Test','Kappa')].apply('{0:.3f}'.format)            
+  df[('Test','KStd')]=df[('Test','KStd')].apply('\u00B1{0:.3f}'.format)            
+  df[('Test','F1')]=df[('Test','F1')].apply('{0:.3f}'.format)            
+  df[('Test','FStd')]=df[('Test','FStd')].apply('\u00B1{0:.3f}'.format)            
+
+  # Format the Pandas dataframe and by drawing some borders. This will requires some knowledge on html table format
+  df=df.style.set_table_styles([{'selector':'','props':'border-top: 2px solid black'},
+                              {'selector':'','props':'border-bottom: 2px solid black'},                           
+                              {'selector':'th','props':'text-align: center'},
+                              {'selector':'th.col_heading','props':'border-top: 1px solid black'},
+                              {'selector':'td','props':'text-align: right'},
+                              {'selector':'.row0','props':'border-top: 2px solid black'},
+                              {'selector':'.row8','props':'border-bottom: 2px solid black'},
+                              {'selector':'.col5','props':'border-right: 1px solid black'}],
+                              )
+  return df
     
 class FilterBank:
     def __init__(self,fs):
