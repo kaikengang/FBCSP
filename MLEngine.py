@@ -13,9 +13,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 class MLEngine:
-    def __init__(self,ntimes=1,kfold=2,m_filters=2,window_details={},v_method='kfold',sssplit=None,best=False):
+    def __init__(self,ntimes=1,kfold=2,m_filters=2,window_details={},v_method='kfold',fsselect=True,sssplit=None,best=False):
         #self.sessions = sessions
         self.kfold = kfold
+        self.fsselect=fsselect
         self.ntimes=ntimes
         self.window_details = window_details
         self.m_filters = m_filters
@@ -92,7 +93,7 @@ class MLEngine:
                     x_features_test = fbcsp.transform(x_test_fb,class_idx=cls_of_interest)
 
                     classifier_type = SVR(gamma='auto')
-                    classifier = Classifier(classifier_type)
+                    classifier = Classifier(classifier_type, fsselect=self.fsselect)
                     y_train_predicted[:,j] = classifier.fit(x_features_train,np.asarray(y_train_cls,dtype=np.float))
                     y_test_predicted[:,j] = classifier.predict(x_features_test)
 
