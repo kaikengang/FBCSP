@@ -1,12 +1,13 @@
 import numpy as np
 
 class Classifier:
-    def __init__(self,model):
+    def __init__(self,model, fsselect = False):
         self.model = model
-        self.feature_selection = False
+        self.fsselect = fsselect
+        self.feature_selection = None
 
     def predict(self,x_features):
-        if self.feature_selection:
+        if self.fsselect:
             x_features_selected = self.feature_selection.transform(x_features)
         else:
             x_features_selected = x_features
@@ -14,8 +15,7 @@ class Classifier:
         return y_predicted
 
     def fit(self,x_features,y_train):
-        feature_selection = True
-        if feature_selection:
+        if self.fsselect:
             feature_selection = FeatureSelect()
             self.feature_selection = feature_selection
             x_train_features_selected = self.feature_selection.fit(x_features,y_train)
@@ -35,12 +35,10 @@ class FeatureSelect:
     def fit(self,x_train_features,y_train):
         MI_features = self.MIBIF(x_train_features, y_train)
         MI_sorted_idx = np.argsort(MI_features)[::-1]
-        features_selected = MI_sorted_idx[:self.n_features_select]
-
+        features_selected = MI_sorted_idx[:self.n_features_select]        
         paired_features_idx = self.select_CSP_pairs(features_selected, self.n_csp_pairs)
         x_train_features_selected = x_train_features[:, paired_features_idx]
         self.features_selected_indices = paired_features_idx
-
         return x_train_features_selected
 
     def transform(self,x_test_features):
